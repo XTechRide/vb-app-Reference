@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SA科目B対策プラン</title>
+<style>
+:root{
+  --bg:#f7f6f2;--card:#ffffff;--text:#1f2328;--muted:#5f6670;--line:#e3e1da;
+  --accent:#1f5fae;--accent-soft:#e6eef9;--warn:#b4541a;--warn-soft:#fbeee4;--ok:#2f7a4a;--ok-soft:#e5f3ea;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#16181c;--card:#1f2228;--text:#e8e8e6;--muted:#a3a8b0;--line:#33373f;
+  --accent:#7fb0ef;--accent-soft:#1f2d42;--warn:#f0a56f;--warn-soft:#3a2a1e;--ok:#7fcf9b;--ok-soft:#1d3226;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;line-height:1.7;font-size:15px}
+.wrap{max-width:880px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:1.6rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 24px}
+h2{font-size:1.2rem;margin:36px 0 12px;padding-left:10px;border-left:4px solid var(--accent)}
+h3{font-size:1rem;margin:20px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.goal{background:var(--accent-soft);border-radius:8px;padding:12px 14px}
+.goal b{display:block;font-size:1.4rem;color:var(--accent)}
+.goal span{color:var(--muted);font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.85rem}
+td.date{white-space:nowrap;font-weight:600}
+tr.weekend td{background:var(--accent-soft)}
+tr.exam td{background:var(--ok-soft)}
+.tag{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:99px;margin-right:4px;border:1px solid var(--line);color:var(--muted)}
+.tag.full{background:var(--accent);color:#fff;border-color:var(--accent)}
+.note{background:var(--warn-soft);border-left:4px solid var(--warn);padding:10px 14px;border-radius:6px;margin:12px 0}
+ol,ul{padding-left:1.3em;margin:6px 0}
+li{margin:3px 0}
+code,.kbd{background:var(--accent-soft);padding:1px 6px;border-radius:4px;font-size:.9em}
+pre{background:var(--accent-soft);padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88rem;white-space:pre-wrap}
+a{color:var(--accent)}
+.scroll{overflow-x:auto}
+footer{margin-top:40px;color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>システムアーキテクト試験 科目B対策プラン</h1>
+<p class="sub">2026/11/3(火)〜 本番 11/20(金)|午後1(B-1)と論文(B-2)の両方を毎日進める</p>
+
+<h2>ゴール</h2>
+<div class="goals">
+  <div class="goal"><b>4本以上</b><span>論文フル記述(2時間・タイピング)</span></div>
+  <div class="goal"><b>10問以上</b><span>論文の骨子のみ(1問20〜30分)</span></div>
+  <div class="goal"><b>毎日1問</b><span>午後1の過去問(基準点の足切り対策)</span></div>
+  <div class="goal"><b>全件添削</b><span>書いた論文・骨子はスキルで採点</span></div>
+</div>
+
+<h2>日別スケジュール</h2>
+<div class="card scroll">
+<table>
+<thead><tr><th>日付</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td class="date">11/3(火・祝)</td><td>
+  ・合格論文本:「書き方」の章+自分の領域に近い事例2〜3本だけ読む<br>
+  ・教科書:論文の章だけ読む(全部は読まない)</td></tr>
+<tr><td class="date">11/4(水)</td><td>
+  ・<a href="https://claude.ai/artifact/RFTVmGtFQGPs8QRfMKvPtM">論文事例ストック</a>の見直し(下のチェックリスト)<br>
+  ・事例Eの仮の部分を実話に置き換える</td></tr>
+<tr><td class="date">11/5(木)</td><td><span class="tag">平日</span>午後1 1問(40〜45分)+骨子1問(20〜30分)→ 添削</td></tr>
+<tr><td class="date">11/6(金)</td><td><span class="tag">平日</span>午後1 1問+骨子1問 → 添削</td></tr>
+<tr class="weekend"><td class="date">11/7(土)</td><td><span class="tag full">フル①</span>論文2時間 → 添削/午後1を1回分通し(90分)</td></tr>
+<tr class="weekend"><td class="date">11/8(日)</td><td><span class="tag full">フル②</span>①の添削で出た改善点を意識して論文2時間 → 添削</td></tr>
+<tr><td class="date">11/9(月)〜11/13(金)</td><td><span class="tag">平日</span>毎日:午後1 1問+骨子1問 → 添削<br>余力がある日は、骨子1問を本文に膨らませる練習</td></tr>
+<tr class="weekend"><td class="date">11/14(土)</td><td><span class="tag full">フル③</span>論文2時間 → 添削/午後1を1回分通し</td></tr>
+<tr class="weekend"><td class="date">11/15(日)</td><td><span class="tag full">フル④</span>論文2時間 → 添削</td></tr>
+<tr><td class="date">11/16(月)〜11/18(水)</td><td><span class="tag">平日</span>午後1 1問+骨子1問<br>添削で繰り返し指摘された点だけを直す(新しいことはしない)</td></tr>
+<tr><td class="date">11/19(木)</td><td>事例ストックと汎用パーツ(システム概要の段落など)を見直す。早めに寝る</td></tr>
+<tr class="exam"><td class="date">11/20(金)</td><td><b>本番</b></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note">
+<b>守ること</b><br>
+・本番はタイピングなので、フル記述は必ず2時間を計ってタイピングで書く<br>
+・企画・RFP系の問題は避け、要件定義・設計寄りの問題を選ぶ前提で準備する<br>
+・午後1は最後にまとめてやらない。毎日少しずつ進める
+</div>
+
+<h2>事例ストック見直しチェックリスト(11/4)</h2>
+<div class="card">
+<ol>
+  <li><b>仮の内容が残っていないか</b>:推測で書いた部分を、自分の言葉と実際の数字に置き換える。事例Eは次の3点を埋める
+    <ul>
+      <li>対象のシステム・機能と、レビューに参加した利用部門(優先順位を最終判断した人)</li>
+      <li>毎週のレビューで見つかった要件の誤り1〜2件(例外ケースなど)</li>
+      <li>終盤の仕様変更件数を従来の案件と比べた結果</li>
+    </ul></li>
+  <li><b>各事例に比較した案が2つ以上あるか</b>:案A/案Bの比較、選んだ理由、捨てた案の欠点を1行ずつ</li>
+  <li><b>SAの視点になっているか</b>:要件定義・方式設計の判断が主役か(進め方の話が中心ならPM寄り)</li>
+  <li><b>早見表でカバーできない出題パターンはないか</b>:どの事例も使えない問題は、本番で選ばなければよい</li>
+</ol>
+</div>
+
+<h2>骨子の作り方</h2>
+<div class="card">
+<ol>
+  <li>問題文の設問ア・イ・ウの文言をそのまま見出しにする</li>
+  <li><b>1行=1段落</b>で書く(本番では1行を200〜300字に膨らませる)</li>
+  <li>時間の半分は<b>設問イの「案の比較」と「工夫」</b>に使う</li>
+  <li>設問ウの評価は、設問アの課題と<b>同じ物差し</b>で書く(例:終盤の仕様変更件数)</li>
+  <li>実際の字数指定に合わせて配分する</li>
+</ol>
+<h3>骨子の型</h3>
+<pre>設問ア(対象業務とシステムの概要)
+ 1. 会社と業務/利用部門
+ 2. システム概要
+ 3. 課題(数値つき)
+ 4. 私の立場(システムアーキテクトとして担当した範囲)
+
+設問イ(実施した内容と工夫)
+ 1. 方針
+ 2. 案の比較:案A → 不採用の理由/案B → 不採用の理由/案C → 採用の理由
+ 3. 工夫1(判断の理由つき)
+ 4. 工夫2
+ 5. 工夫3
+
+設問ウ(評価と課題)
+ 1. 評価(設問アの課題と同じ物差しの数値)
+ 2. 残った課題
+ 3. 今後の改善</pre>
+</div>
+
+<h2>添削スキル(sa-ronbun-review)の使い方</h2>
+<div class="card">
+<h3>手順</h3>
+<ol>
+  <li><b>毎回、新しいチャットを開く</b>(コンテキストをためないため)</li>
+  <li>「SA論文を添削して」と書く</li>
+  <li>次の2つを貼り付ける
+    <ul>
+      <li>問題文:少なくとも設問ア・イ・ウの文言と字数指定</li>
+      <li>論文本文、または骨子(使った事例名「事例E」なども書くとよい)</li>
+    </ul></li>
+</ol>
+<h3>入力例</h3>
+<pre>SA論文を添削して。本文です。事例Eを使いました。
+
+【問題文】
+(設問ア・イ・ウと字数指定を貼る)
+
+【論文】
+設問ア
+(本文)
+設問イ
+(本文)
+設問ウ
+(本文)</pre>
+<h3>返ってくるもの</h3>
+<ul>
+  <li>総合評価(A:合格水準 〜 D:要求から逸脱)と理由</li>
+  <li>設問ごとの字数チェック(本文のときのみ、コードで正確に計測)</li>
+  <li>IPAの6観点の5段階評価:要求の充足度/具体性/妥当性/一貫性/見識に基づく主張/表現力</li>
+  <li>SA特有のチェック:PM論文になっていないか、案の比較があるか、立場が明確か、評価が具体的か</li>
+  <li>改善点トップ3と、改善点1の書き直し例</li>
+  <li>良かった点(次も維持すべき点)</li>
+</ul>
+<h3>骨子を送ったとき</h3>
+<ul>
+  <li>字数と表現力の採点は省略</li>
+  <li>設問の要求がそろっているか、案の比較と工夫が2つ以上あるか、指定字数まで膨らませる材料があるか、アとウが同じ物差しかを重点的に見る</li>
+</ul>
+<h3>活用のコツ</h3>
+<ul>
+  <li>添削で指摘された点はメモしておき、次のフル記述の前に見返す</li>
+  <li>同じ指摘が2回出たら最優先で直す</li>
+  <li>採点基準を変えたいときは、元のチャットで修正を依頼する</li>
+</ul>
+</div>
+
+<footer>本番:2026年11月20日(金)</footer>
+</div>
+</body>
+</html>
