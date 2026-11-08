@@ -1,0 +1,615 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>SA過去問ドリル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho:wght@700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 試験の答案用紙。上部に細いバー、中央に1枚の「用紙」、解答はマークシートの楕円 */
+:root{
+  --paper:#f3f5f8; --sheet:#ffffff; --ink:#1b2533; --ink-2:#5a6676; --rule:#dde2e9;
+  --accent:#2b5c8a; --accent-soft:#e6eef6; --mark:#a87a1f; --mark-soft:#f6eedd;
+  --ok:#2e7a4d; --ok-soft:#e3f2e9; --ng:#b03f2d; --ng-soft:#f8e6e2;
+  --f-display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151b; --sheet:#1a2029; --ink:#e3e8ef; --ink-2:#9aa6b6; --rule:#2c3541;
+  --accent:#86b5df; --accent-soft:#1f2c3b; --mark:#dcae55; --mark-soft:#332a18;
+  --ok:#62bb88; --ok-soft:#173025; --ng:#e57f6b; --ng-soft:#3a1f1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151b; --sheet:#1a2029; --ink:#e3e8ef; --ink-2:#9aa6b6; --rule:#2c3541;
+  --accent:#86b5df; --accent-soft:#1f2c3b; --mark:#dcae55; --mark-soft:#332a18;
+  --ok:#62bb88; --ok-soft:#173025; --ng:#e57f6b; --ng-soft:#3a1f1a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.75}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--sheet);border-bottom:1px solid var(--rule)}
+.bar-in{max-width:880px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-size:19px;font-weight:700;letter-spacing:.04em;margin-right:auto}
+.brand small{font-family:var(--f-body);font-size:11px;color:var(--ink-2);font-weight:400;margin-left:8px;letter-spacing:.08em}
+nav{display:flex;gap:4px}
+nav button{font:inherit;font-size:14px;background:none;border:0;color:var(--ink-2);padding:6px 12px;border-radius:6px;cursor:pointer}
+nav button[aria-current="true"]{color:var(--accent);background:var(--accent-soft);font-weight:700}
+main{max-width:880px;margin:0 auto;padding-inline:16px;padding-block:24px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.4}
+h1{font-size:24px} h2{font-size:19px} h3{font-size:16px}
+.stack{display:flex;flex-direction:column;gap:20px}
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:22px}
+.lab{font-size:11px;letter-spacing:.12em;color:var(--ink-2);font-weight:700}
+.muted{color:var(--ink-2)}
+.note{font-size:13px;color:var(--ink-2);background:var(--mark-soft);border-left:3px solid var(--mark);padding:10px 14px;border-radius:4px}
+.note a{color:var(--accent)}
+.field{display:flex;flex-direction:column;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.chip .n{font-family:var(--f-mono);font-size:11px;opacity:.7;margin-left:4px}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:8px;overflow:hidden;align-self:flex-start}
+.seg button{font:inherit;font-size:14px;padding:8px 14px;border:0;border-right:1px solid var(--rule);background:var(--sheet);color:var(--ink);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--sheet);font-weight:700}
+.seg button small{display:block;font-size:10px;opacity:.75;font-weight:400;line-height:1.2}
+.check{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.btn{font:inherit;font-size:14px;padding:9px 18px;border-radius:8px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--sheet);font-weight:700}
+.btn.danger{color:var(--ng);border-color:var(--ng)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px}
+.tag{padding:2px 8px;border-radius:4px;background:var(--accent-soft);color:var(--accent);font-weight:700}
+.tag.alt{background:var(--mark-soft);color:var(--mark)}
+.prog{font-family:var(--f-mono);margin-left:auto;color:var(--ink-2)}
+.progbar{height:3px;background:var(--rule);border-radius:2px;overflow:hidden}
+.progbar i{display:block;height:100%;background:var(--accent)}
+.qtext{white-space:pre-wrap;font-size:16px;line-height:1.85}
+.choices{display:flex;flex-direction:column;gap:8px}
+.choice{display:flex;gap:14px;align-items:flex-start;text-align:left;font:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--rule);border-radius:8px;background:var(--sheet);color:var(--ink);cursor:pointer}
+.choice:hover:not(:disabled){border-color:var(--accent)}
+.bubble{flex:none;width:30px;height:20px;border-radius:50%;border:1.5px solid var(--ink-2);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ink-2);margin-top:3px}
+.choice.is-correct{border-color:var(--ok);background:var(--ok-soft)}
+.choice.is-correct .bubble{background:var(--ok);border-color:var(--ok);color:var(--sheet)}
+.choice.is-wrong{border-color:var(--ng);background:var(--ng-soft)}
+.choice.is-wrong .bubble{background:var(--ng);border-color:var(--ng);color:var(--sheet)}
+.choice:disabled{cursor:default}
+.verdict{font-family:var(--f-display);font-size:20px;font-weight:700}
+.verdict.ok{color:var(--ok)} .verdict.ng{color:var(--ng)}
+.exp{border-top:1px dashed var(--rule);padding-top:14px;display:flex;flex-direction:column;gap:10px}
+.ans{display:grid;grid-template-columns:7em 1fr;gap:12px;align-items:baseline}
+.ans>span:last-child{min-width:0}
+.celist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.celist li{display:grid;grid-template-columns:1.8em 1fr;gap:8px;padding:6px 10px;border-radius:6px;border:1px solid var(--rule);font-size:14px}
+.celist li.is-ok{border-color:var(--ok);background:var(--ok-soft)}
+.celist li.is-ng{border-color:var(--ng);background:var(--ng-soft)}
+.celist .ck{font-weight:700;color:var(--ink-2)}
+.celist .mine{display:inline-block;margin-left:8px;font-size:11px;font-weight:700;color:var(--ng);border:1px solid var(--ng);border-radius:999px;padding:0 6px}
+@media (max-width:520px){.ans{grid-template-columns:1fr;gap:2px}}
+.case{white-space:pre-wrap;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:16px;font-size:14.5px}
+.sub{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--rule);padding-top:16px}
+.sub textarea{font:inherit;width:100%;min-height:72px;padding:10px;border:1px solid var(--rule);border-radius:6px;background:var(--sheet);color:var(--ink);resize:vertical}
+.cc{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);text-align:right}
+.cc.over{color:var(--ng)}
+.model{background:var(--ok-soft);border-radius:6px;padding:10px 14px;font-size:14px}
+.mtext{white-space:pre-wrap;margin-top:2px}
+.case-body{display:flex;flex-direction:column;gap:12px;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:18px;font-size:14.5px;line-height:1.85}
+.case-body .para{margin:0;white-space:pre-wrap}
+.case-body .sec{font-family:var(--f-body);font-size:15px;font-weight:700;margin-top:6px}
+.fig{margin:4px 0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.fig figcaption{font-weight:700;font-size:13.5px;text-align:center}
+table.ct{font-size:13px;line-height:1.6;background:var(--sheet)}
+table.ct th,table.ct td{border:1px solid var(--ink-2);padding:5px 8px;white-space:pre-wrap;vertical-align:top}
+table.ct th{background:var(--accent-soft);color:var(--ink);letter-spacing:0;font-size:12.5px;text-align:center}
+.imgbox{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px;overflow-x:auto;text-align:center}
+.imgbox img{max-width:100%;height:auto}
+.fnote{margin:0;font-size:12.5px;color:var(--ink-2);white-space:pre-wrap}
+.blank{display:inline-block;min-width:3em;border:1.5px solid var(--ink);padding:0 .8em;margin:0 2px;text-align:center;font-family:var(--f-mono);font-size:.9em;line-height:1.5}
+.subq{white-space:pre-wrap}
+textarea.essay{min-height:200px}
+.cc.short{color:var(--mark)}
+.model b{color:var(--ok)}
+.grade{display:flex;gap:6px}
+.grade button{font:inherit;width:44px;height:36px;border:1px solid var(--rule);border-radius:6px;background:var(--sheet);color:var(--ink);cursor:pointer;font-size:16px}
+.grade button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.kpi{border:1px solid var(--rule);border-radius:8px;padding:12px 14px;background:var(--sheet)}
+.kpi b{display:block;font-family:var(--f-mono);font-size:24px;font-variant-numeric:tabular-nums;line-height:1.3}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--rule);vertical-align:middle}
+th{font-size:11px;letter-spacing:.08em;color:var(--ink-2);font-weight:700}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.meter{position:relative;height:8px;background:var(--rule);border-radius:4px;min-width:90px}
+.meter i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.meter .line{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--ink-2);left:60%}
+.pill{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;font-weight:700}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.ng{background:var(--ng-soft);color:var(--ng)} .pill.mid{background:var(--mark-soft);color:var(--mark)}
+.qsnip{max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.empty{text-align:center;padding:32px 16px;color:var(--ink-2)}
+.dup{border:1px solid var(--rule);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+textarea.code{font-family:var(--f-mono);font-size:12px;width:100%;min-height:160px;padding:10px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink)}
+details summary{cursor:pointer;color:var(--accent);font-size:14px}
+pre{overflow-x:auto;font-family:var(--f-mono);font-size:12px;background:var(--paper);padding:12px;border-radius:6px;border:1px solid var(--rule)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--sheet);padding:8px 16px;border-radius:8px;font-size:14px;z-index:9}
+.kbd{font-family:var(--f-mono);font-size:11px;border:1px solid var(--rule);border-radius:3px;padding:0 4px}
+@media (max-width:520px){.sheet{padding:16px}.qsnip{max-width:160px}.hide-sm{display:none}}
+@media (prefers-reduced-motion:no-preference){.choice,.chip,.btn{transition:border-color .15s,background .15s}}
+</style>
+
+<header class="bar"><div class="bar-in">
+  <div class="brand">SA過去問ドリル<small>システムアーキテクト</small></div>
+  <nav>
+    <button type="button" data-act="nav" data-v="drill" id="nav-drill">演習</button>
+    <button type="button" data-act="nav" data-v="stats" id="nav-stats">分析</button>
+    <button type="button" data-act="nav" data-v="data" id="nav-data">問題データ</button>
+  </nav>
+</div></header>
+
+<main>
+  <section id="view-setup" class="stack"></section>
+  <section id="view-quiz" class="stack" hidden></section>
+  <section id="view-result" class="stack" hidden></section>
+  <section id="view-stats" class="stack" hidden></section>
+  <section id="view-data" class="stack" hidden></section>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ===== 収録データ（オリジナル例題。IPA公開問題は「問題データ」から読み込み） ===== */
+const SEED=[
+// ---- 午前Ⅱ ----
+{id:'AM2-R3-01',exam:'AM2',year:'R3',cat:'システム企画・要件定義',q:'IPAの「非機能要求グレード」において、大項目として定義されていないものはどれか。',c:['可用性','移行性','業務機能性','運用・保守性'],a:2,exp:'大項目は「可用性」「性能・拡張性」「運用・保守性」「移行性」「セキュリティ」「システム環境・エコロジー」の6つ。業務機能は機能要件側の話。'},
+{id:'AM2-R3-02',exam:'AM2',year:'R3',cat:'システム方式設計',q:'MTBFが950時間，MTTRが50時間である装置の稼働率はいくらか。',c:['0.90','0.947','0.95','0.98'],a:2,exp:'稼働率 = MTBF ÷ (MTBF + MTTR) = 950 ÷ 1,000 = 0.95。'},
+{id:'AM2-R3-03',exam:'AM2',year:'R3',cat:'ソフトウェア設計',q:'UMLにおいて，オブジェクト間のメッセージのやり取りを時系列に沿って表現する図はどれか。',c:['クラス図','アクティビティ図','ステートマシン図','シーケンス図'],a:3,exp:'シーケンス図は縦軸を時間とし、ライフライン間のメッセージ送受信を表す。ステートマシン図は1オブジェクトの状態遷移。'},
+{id:'AM2-R3-04',exam:'AM2',year:'R3',cat:'テスト・移行',q:'ホワイトボックステストの判定条件網羅（C1）の説明として，適切なものはどれか。',c:['全ての命令を少なくとも1回実行する','全ての判定について，真と偽をそれぞれ少なくとも1回実行する','判定内の全ての条件の真偽の組合せを全て実行する','仕様書の入力条件ごとに代表値を1つ選んで実行する'],a:1,exp:'C0=命令網羅、C1=判定条件(分岐)網羅、複数条件網羅は条件の全組合せ。エは同値分割（ブラックボックス）。'},
+{id:'AM2-R3-05',exam:'AM2',year:'R3',cat:'開発手法',q:'スクラムにおいて，プロダクトバックログの項目の優先順位を最終的に決める責任をもつのは誰か。',c:['スクラムマスター','プロダクトオーナー','開発者','ステークホルダー'],a:1,exp:'プロダクトオーナーはプロダクトの価値最大化に責任をもち、プロダクトバックログを管理・並べ替える。'},
+{id:'AM2-R3-06',exam:'AM2',year:'R3',cat:'プロジェクト管理',q:'EVMで，現時点のPVが100万円，EVが80万円，ACが90万円であるとき，プロジェクトの状況として適切なものはどれか。',c:['スケジュールは前倒し，コストは予算内','スケジュールは遅れ，コストは予算内','スケジュールは前倒し，コストは超過','スケジュールは遅れ，コストは超過'],a:3,exp:'SPI = EV÷PV = 0.8 (<1 で遅れ)、CPI = EV÷AC ≒ 0.89 (<1 で超過)。'},
+{id:'AM2-R3-07',exam:'AM2',year:'R3',cat:'データベース',q:'関係データベースの正規化で，第2正規形の表を第3正規形にするときに排除するものはどれか。',c:['繰返しグループ','部分関数従属','推移的関数従属','多値従属'],a:2,exp:'第1正規形で繰返しを排除、第2正規形で部分関数従属を排除、第3正規形で推移的関数従属を排除する。多値従属は第4正規形。'},
+{id:'AM2-R3-08',exam:'AM2',year:'R3',cat:'セキュリティ',q:'SQLインジェクション攻撃への対策として，最も有効なものはどれか。',c:['入力値をHTMLエスケープしてから出力する','SQL文の組立てにプレースホルダを用いる','セッションIDを推測困難な値にする','通信をTLSで暗号化する'],a:1,exp:'プレースホルダ（バインド機構）により入力値がSQL構文として解釈されなくなる。アはXSS対策。'},
+{id:'AM2-R3-09',exam:'AM2',year:'R3',cat:'経営・法務',q:'ソフトウェア開発の請負契約において，著作権の帰属について特段の取決めがない場合，成果物であるプログラムの著作権は原則として誰に帰属するか。',c:['発注者','受注者','発注者と受注者の共有','プログラムを利用する者'],a:1,exp:'著作権は創作した側（受注者。職務著作なら受注企業）に原始的に帰属する。発注者に移すには契約で譲渡を定める。'},
+{id:'AM2-R4-01',exam:'AM2',year:'R4',cat:'システム方式設計',q:'稼働率0.9の装置を2台並列に接続し，どちらか1台が稼働していればシステムが稼働するとき，システム全体の稼働率はいくらか。',c:['0.81','0.90','0.95','0.99'],a:3,exp:'並列: 1 − (1 − 0.9)² = 1 − 0.01 = 0.99。直列なら 0.9 × 0.9 = 0.81。'},
+{id:'AM2-R4-02',exam:'AM2',year:'R4',cat:'ソフトウェア設計',q:'モジュール強度（結合力）が最も強いものはどれか。',c:['暗合的強度','論理的強度','時間的強度','機能的強度'],a:3,exp:'強度は 暗合的 < 論理的 < 時間的 < 手順的 < 連絡的 < 情報的 < 機能的 の順に強い。強いほど望ましい。'},
+{id:'AM2-R4-03',exam:'AM2',year:'R4',cat:'テスト・移行',q:'入力値が1以上100以下の整数のとき正常とする仕様がある。境界値分析によるテストデータの組として，適切なものはどれか。',c:['0，1，100，101','1，50，100','0，50，101','−1，0，101，102'],a:0,exp:'有効範囲の両端（1, 100）とその外側（0, 101）を選ぶのが境界値分析。'},
+{id:'AM2-R4-04',exam:'AM2',year:'R4',cat:'開発手法',q:'共通フレーム2013において，利害関係者の要件を定義し，合意を得ることを目的とするプロセスはどれか。',c:['企画プロセス','要件定義プロセス','システム開発プロセス','運用・サービスプロセス'],a:1,exp:'要件定義プロセスで利害関係者要件を定義・合意する。システム要件定義はシステム開発プロセス内のアクティビティ。'},
+{id:'AM2-R4-05',exam:'AM2',year:'R4',cat:'プロジェクト管理',q:'作業Aの後に作業Bと作業Cを並行して行い，両方が終わったら作業Dを行う。所要日数がA=3日，B=5日，C=4日，D=2日のとき，全体の最短所要日数は何日か。',c:['9日','10日','11日','14日'],a:1,exp:'経路 A→B→D = 10日、A→C→D = 9日。長い方 A→B→D がクリティカルパスで10日。'},
+{id:'AM2-R4-06',exam:'AM2',year:'R4',cat:'データベース',q:'分散データベースで，複数サイトにまたがるトランザクションの原子性を保証するための手法はどれか。',c:['2相コミット','2相ロック','チェックポイント','ロールフォワード'],a:0,exp:'2相コミットは、準備（全サイトにコミット可否を問う）と確定の2段階で全サイト一斉のコミット／ロールバックを保証する。2相ロックは直列化可能性のための手法。'},
+{id:'AM2-R4-07',exam:'AM2',year:'R4',cat:'セキュリティ',q:'情報システムの企画・設計段階からセキュリティを確保しておく考え方はどれか。',c:['セキュリティ・バイ・デザイン','多層防御','ペネトレーションテスト','インシデントレスポンス'],a:0,exp:'後付けではなく上流工程から組み込むことで、手戻りコストを抑えつつ安全性を高める。'},
+{id:'AM2-R4-08',exam:'AM2',year:'R4',cat:'経営・法務',q:'請負契約に基づくシステム開発において，問題となる行為はどれか。',c:['発注者が受注者に成果物の仕様変更を書面で依頼する','発注者が受注者の作業者に直接作業指示を出す','受注者が作業の一部を再委託する旨を発注者に報告する','受注者が自社の責任者を通じて進捗を報告する'],a:1,exp:'請負では発注者に作業者への指揮命令権がない。直接指示すると実態が派遣となり、偽装請負として労働者派遣法上の問題になる。'},
+{id:'AM2-R4-09',exam:'AM2',year:'R4',cat:'システム企画・要件定義',q:'業務プロセスを記述するための記法として，OMGが標準化しているものはどれか。',c:['BPMN','E-R図','PERT図','DFD'],a:0,exp:'BPMN（Business Process Model and Notation）はイベント・アクティビティ・ゲートウェイ・レーンなどで業務フローを表す。'},
+{id:'AM2-R5-01',exam:'AM2',year:'R5',cat:'システム企画・要件定義',q:'DFDで表現できないものはどれか。',c:['データの流れ','データの蓄積','処理の実行順序や制御条件','外部との境界'],a:2,exp:'DFDの要素はデータフロー・プロセス・データストア・外部実体。処理の順序や分岐条件は表さない。'},
+{id:'AM2-R5-02',exam:'AM2',year:'R5',cat:'ソフトウェア設計',q:'モジュール結合度が最も弱いものはどれか。',c:['内容結合','共通結合','制御結合','データ結合'],a:3,exp:'結合度は弱い方から データ < スタンプ < 制御 < 外部 < 共通 < 内容。弱いほど独立性が高く望ましい。'},
+{id:'AM2-R5-03',exam:'AM2',year:'R5',cat:'テスト・移行',q:'新システムと旧システムを一定期間同時に稼働させ，処理結果を比較・検証した後に切り替える移行方式はどれか。',c:['一斉移行','段階移行','並行移行','パイロット移行'],a:2,exp:'並行移行は安全性が高いが、二重運用の負荷とコストがかかる。'},
+{id:'AM2-R5-04',exam:'AM2',year:'R5',cat:'プロジェクト管理',q:'ファンクションポイント法の説明として，適切なものはどれか。',c:['ソースコードの行数を基に開発規模を見積もる','外部入力，外部出力，内部論理ファイル，外部インタフェースファイル，外部照会の数と複雑さを基に規模を見積もる','類似プロジェクトの実績を基に専門家が見積もる','作業を細分化して各作業の工数を積み上げる'],a:1,exp:'FP法はユーザから見た機能の量で規模を測るため、言語や実装に依存しない。アはLOC法、ウは類推法、エはボトムアップ見積り。'},
+{id:'AM2-R5-05',exam:'AM2',year:'R5',cat:'システム方式設計',q:'SLAの説明として，適切なものはどれか。',c:['サービス提供者と利用者の間で合意したサービスレベルを明文化したもの','サービス提供者が内部で設定する改善目標','ITサービスマネジメントのベストプラクティス集','障害発生時の対応手順書'],a:0,exp:'SLA（Service Level Agreement）は稼働率や応答時間などの合意事項。内部目標はSLOと呼ばれることが多い。'},
+{id:'AM2-R5-06',exam:'AM2',year:'R5',cat:'システム方式設計',q:'マイクロサービスアーキテクチャの特徴として，適切なものはどれか。',c:['全機能を単一のプログラムとしてビルド・デプロイする','独立してデプロイ可能な小さなサービスを組み合わせてシステムを構成する','全サービスが単一のデータベーススキーマを共有する','サービス間の連携をファイル転送のバッチで行う'],a:1,exp:'サービスごとに独立して開発・デプロイ・スケールできる。データもサービスごとに持つのが原則。'},
+{id:'AM2-R5-07',exam:'AM2',year:'R5',cat:'経営・法務',q:'バリューチェーン分析の説明として，適切なものはどれか。',c:['事業活動を主活動と支援活動に分け，どの活動で価値が生み出されているかを分析する','自社の強み・弱み，外部環境の機会・脅威を整理する','市場成長率と相対的市場シェアで事業を分類する','顧客・競合・自社の観点で事業環境を分析する'],a:0,exp:'ポーターが提唱。イはSWOT分析、ウはPPM、エは3C分析。'},
+{id:'AM2-R5-08',exam:'AM2',year:'R5',cat:'経営・法務',q:'基準生産計画と部品構成表，在庫情報を基に，必要な資材の量と発注時期を算出する手法はどれか。',c:['MRP','JIT','SCM','CRM'],a:0,exp:'MRP（資材所要量計画）は総所要量から在庫・発注残を差し引いて正味所要量を求め、リードタイム分さかのぼって手配する。'},
+{id:'AM2-R6-01',exam:'AM2',year:'R6',cat:'システム方式設計',q:'事業継続計画におけるRPOの説明として，適切なものはどれか。',c:['障害発生から業務を再開するまでの目標時間','障害発生時に，どの時点までのデータを復旧するかの目標','業務を再開するときの目標とする処理能力の水準','許容できる最大の停止期間'],a:1,exp:'RPO（目標復旧時点）はバックアップ取得間隔を決める根拠になる。アはRTO（目標復旧時間）、ウはRLO。'},
+{id:'AM2-R6-02',exam:'AM2',year:'R6',cat:'システム方式設計',q:'サーバの台数を増やすことで，システム全体の処理能力を高める方法はどれか。',c:['スケールアップ','スケールアウト','スケールダウン','スケールイン'],a:1,exp:'スケールアウトは台数を増やす（水平）。スケールアップはCPUやメモリを増強する（垂直）。'},
+{id:'AM2-R6-03',exam:'AM2',year:'R6',cat:'経営・法務',q:'1,200万円を投資し，毎年400万円の効果が得られるシステムの回収期間は何年か。ここで，金利は考慮しない。',c:['2年','3年','4年','4.8年'],a:1,exp:'回収期間 = 投資額 ÷ 年間効果 = 1,200 ÷ 400 = 3年。'},
+{id:'AM2-R6-04',exam:'AM2',year:'R6',cat:'システム企画・要件定義',q:'調達の初期段階で，ベンダに対して製品や技術の情報提供を依頼する文書はどれか。',c:['RFI','RFP','RFQ','NDA'],a:0,exp:'RFI（情報提供依頼書）で情報を集め、RFP（提案依頼書）で提案を求め、RFQで見積りを依頼する。'},
+{id:'AM2-R6-05',exam:'AM2',year:'R6',cat:'システム方式設計',q:'ＭＴＢＦが９５０時間、ＭＴＴＲが５０時間である装置の稼働率はいくらか。',c:['0.90','0.947','0.95','0.98'],a:2,exp:'稼働率 = MTBF ÷ (MTBF + MTTR) = 950 ÷ 1,000 = 0.95。'},
+{id:'AM2-R6-06',exam:'AM2',year:'R6',cat:'ソフトウェア設計',q:'モジュール強度(結合力)が最も強いものはどれか',c:['暗合的強度','論理的強度','時間的強度','機能的強度'],a:3,exp:'強度は 暗合的 < 論理的 < 時間的 < 手順的 < 連絡的 < 情報的 < 機能的 の順に強い。'},
+{id:'AM2-R7-01',exam:'AM2',year:'R7',cat:'ソフトウェア設計',q:'システムが提供する機能と，それを利用するアクターとの関係を表すUMLの図はどれか。',c:['ユースケース図','オブジェクト図','コンポーネント図','配置図'],a:0,exp:'ユースケース図は要件定義でシステムの範囲と利用者を合意する際に使う。'},
+{id:'AM2-R7-02',exam:'AM2',year:'R7',cat:'開発手法',q:'継続的インテグレーション（CI）の説明として，適切なものはどれか。',c:['開発者が変更を頻繁に共有リポジトリへ統合し，そのたびに自動でビルドとテストを行う','リリース可能な成果物を本番環境へ自動的にデプロイし続ける','開発チームと運用チームを1つの組織に統合する','ソースコードを第三者が目視で継続的にレビューする'],a:0,exp:'統合の頻度を上げて不具合を早期に発見する。イは継続的デプロイメント。'},
+{id:'AM2-R7-03',exam:'AM2',year:'R7',cat:'セキュリティ',q:'ゼロトラストの考え方として，適切なものはどれか。',c:['社内ネットワークは信頼し，境界のファイアウォールで外部からの侵入を防ぐ','社内外を問わず全てのアクセスを信頼せず，都度検証して最小限の権限を与える','利用者の端末を全て社内に持ち込ませ，外部接続を禁止する','暗号化した通信は安全とみなして検査しない'],a:1,exp:'境界型防御の前提（内部は安全）を捨て、アクセスごとに認証・認可・端末状態を検証する。'},
+{id:'AM2-R7-04',exam:'AM2',year:'R7',cat:'データベース',q:'トランザクションのACID特性のうち，同時に実行される複数のトランザクションが互いに影響を与えないことを表すものはどれか。',c:['原子性','一貫性','独立性','永続性'],a:2,exp:'独立性（Isolation）。排他制御（ロック）で実現する。原子性=全部か無か、永続性=確定結果が失われない。'},
+{id:'AM2-R7-05',exam:'AM2',year:'R7',cat:'システム企画・要件定義',q:'新しい技術やアイデアの実現可能性を，本格導入の前に小規模に試して検証することを何というか。',c:['PoC','PoS','MVP','KPI'],a:0,exp:'PoC（Proof of Concept：概念実証）。MVPは顧客に価値を提供できる最小限の製品。'},
+{id:'AM2-R7-06',exam:'AM2',year:'R7',cat:'プロジェクト管理',q:'リスクへの対応策のうち，保険に加入して損失を補償してもらう方法に該当するものはどれか。',c:['回避','軽減','転嫁','受容'],a:2,exp:'転嫁（移転）はリスクの影響を第三者に移す。保険や契約による責任移転が代表例。'},
+// ---- 午後Ⅰ ----
+{id:'PM1-R3-01',exam:'PM1',year:'R3',cat:'システム企画・要件定義',title:'部品メーカーの在庫管理システム再構築',
+ case:'A社は自動車部品を製造する中堅メーカーである。現行の在庫管理システムは15年前に構築され、在庫数は夜間の日次バッチで更新される。\n\n営業部門からは、顧客の問合せに対して当日の受注・出荷を反映した在庫数を回答できないという不満が出ている。\n\nまた倉庫では、出荷指示書を紙で受け取り、作業者が手書きで実績を記録した後に事務担当者がシステムへ入力している。入力漏れや転記ミスによる帳簿と実在庫の差異が、月平均40件発生している。\n\nA社は、在庫情報をリアルタイムに把握できるシステムへ再構築することにした。',
+ subs:[
+  {q:'営業部門の不満を解消するため、新システムで在庫数を更新すべきタイミングを20字以内で答えよ。',limit:20,model:'受注確定時と出荷実績登録時に即時更新',points:'「日次バッチ」ではなく、受注・出荷という在庫を変動させる事象の発生時点で更新することが書けているか。'},
+  {q:'在庫差異を削減するため、倉庫作業に導入すべき仕組みを、現行の問題点を踏まえて35字以内で答えよ。',limit:35,model:'ハンディ端末で品目を読み取り、出荷実績を転記せず直接登録する',points:'差異の原因は「手書き→転記」の二重作業。読取り＋直接登録で転記をなくす点が核心。'},
+  {q:'在庫数をリアルタイムに更新する方式へ変更する際、方式設計上で考慮すべき点を25字以内で答えよ。',limit:25,model:'同時更新時の排他制御による在庫数の整合性確保',points:'複数端末から同一品目を同時に更新する競合（ロスト更新）への対策。'}
+ ]},
+{id:'PM1-R4-01',exam:'PM1',year:'R4',cat:'システム方式設計',title:'食品工場の品質トレーサビリティ',
+ case:'B社は冷凍食品を製造している。製品に異物混入などの品質問題が発生した場合、原材料のロットを特定するまでに平均3日を要している。\n\n製造記録は工程ごとに別々のExcelファイルで管理され、原材料ロット番号と製品ロット番号の対応付けは担当者の手作業に依存している。工程によってロット番号の採番ルールも異なる。\n\nB社は、品質問題の発生時に影響範囲を2時間以内に特定することを目標に、トレーサビリティシステムを構築する。製品の出荷実績は既存の出荷管理システムで管理されている。',
+ subs:[
+  {q:'目標を達成するため、新システムで管理すべきデータの関係を30字以内で答えよ。',limit:30,model:'工程ごとの投入原材料ロットと製造した製品ロットの対応関係',points:'「ロットの紐付け」を工程単位で記録すること。どちらか片方のロットだけでは追跡できない。'},
+  {q:'問題のある製品ロットの出荷先を特定するために連携すべき既存システムと、そのデータを25字以内で答えよ。',limit:25,model:'出荷管理システムの製品ロット別出荷実績',points:'川下追跡（製品→顧客）には出荷実績がロット単位で必要。'},
+  {q:'Excelで管理していた過去データを移行する際に考慮すべき点を30字以内で答えよ。',limit:30,model:'工程ごとに異なるロット番号体系を統一形式に変換すること',points:'問題文の「採番ルールが異なる」という記述を使えているか。'}
+ ]},
+{id:'PM1-R5-01',exam:'PM1',year:'R5',cat:'システム企画・要件定義',title:'補修部品販売のWeb受注システム',
+ case:'C社は産業用機器の補修部品を販売している。受注の8割はFAXで受け付け、受注担当者が基幹システムに手入力している。繁忙期には入力が遅れ、15時の翌日出荷締めに間に合わないことがある。\n\nC社は取引先向けのWeb受注システムを構築し、取引先が直接注文を入力できるようにする。\n\n価格は取引先ごとに異なる価格表で決まり、与信限度額を超える注文は営業担当者の承認が必要である。一部の小規模な取引先はFAXでの注文を続ける見込みである。',
+ subs:[
+  {q:'取引先が注文を入力する時点で、基幹システムに照会すべき情報を2つ、それぞれ10字以内で答えよ。',limit:22,model:'取引先別の価格／与信残高（他に在庫数も可）',points:'問題文の業務ルール（価格表・与信）に対応する情報を挙げる。'},
+  {q:'与信限度額を超える注文について、取引先の利便性を損なわずに処理する方式を35字以内で答えよ。',limit:35,model:'注文を保留として受け付け、営業承認後に確定して取引先に通知する',points:'入力を拒否せず「受付→承認→確定」のステータス管理にする点。'},
+  {q:'FAX注文が残ることを前提に、受注担当者の負荷を下げる方策を30字以内で答えよ。',limit:30,model:'FAX注文もWeb受注画面で代行入力し、入力チェックを共通化する',points:'入力経路を一本化して基幹への二重入力やチェック漏れを防ぐ。'}
+ ]},
+{id:'PM1-R6-01',exam:'PM1',year:'R6',cat:'テスト・移行',title:'生産管理システムのクラウド移行',
+ case:'D社は、オンプレミスで稼働している生産管理システムをクラウドへ移行する。システムは24時間稼働の工場3拠点で利用されており、停止できるのは毎月第1日曜日の8時間だけである。\n\nデータ量は約2TBで、データセンタとクラウド間の回線では、全データの転送に約30時間かかる。\n\n移行作業に失敗した場合は、同日中に現行環境で業務を再開する必要がある。',
+ subs:[
+  {q:'8時間の停止時間内で移行を完了させるためのデータ移行方式を35字以内で答えよ。',limit:35,model:'事前に全データを移行しておき、切替当日は差分データだけを転送する',points:'30時間 > 8時間 という数値の矛盾を、事前移行＋差分で解消する。'},
+  {q:'同日中に業務を再開できるよう、移行計画に定めておくべき事項を25字以内で答えよ。',limit:25,model:'切戻しの判断基準と判断時刻、切戻し手順',points:'「いつまでに判断するか」というタイムリミットが含まれているか。'},
+  {q:'切替後に本番稼働を判定するために実施すべき確認を20字以内で答えよ。',limit:20,model:'主要業務の疎通確認とデータ件数の照合',points:'機能面（業務が動く）とデータ面（欠落がない）の両方。'}
+ ]},
+{id:'PM1-R7-01',exam:'PM1',year:'R7',cat:'システム方式設計',title:'電子部品工場の設備データ収集基盤',
+ case:'E社は電子部品を製造しており、生産設備の稼働状況を可視化するため、センサーデータの収集基盤を構築する。\n\n対象設備は200台で、各設備は1秒ごとに温度や振動などのデータを送信する。工場と本社の間のネットワークは帯域が限られている。\n\n設備に異常が発生した場合は、検知から設備への停止指示までを1秒以内に行う必要がある。収集したデータは、本社の分析部門が故障予兆の分析に利用する。',
+ subs:[
+  {q:'1秒以内の異常検知と停止指示を実現するため、判定処理を配置すべき場所と理由を40字以内で答えよ。',limit:40,model:'工場内のエッジ側に置く。本社やクラウドとの通信遅延を避けるため',points:'「場所」と「理由」の両方を書く。理由は1秒という時間制約と結び付ける。'},
+  {q:'帯域が限られたネットワークで本社にデータを送るための工夫を30字以内で答えよ。',limit:30,model:'エッジで集約・圧縮し、平常時は統計値だけを送信する',points:'全量を毎秒送らない工夫。異常前後だけ詳細を送る案も可。'},
+  {q:'分析部門が故障予兆を分析するため、収集データに必ず付与すべき情報を20字以内で答えよ。',limit:20,model:'設備IDと同期された正確な計測時刻',points:'200台のデータを突き合わせるには、設備の識別と時刻のそろいが必須。'}
+ ]}
+];
+SEED.forEach(q=>q.src='original');
+
+/* ===== 定数・ストレージ ===== */
+const EXAMS={AM2:{name:'午前Ⅱ',sub:'科目A-2'},PM1:{name:'午後Ⅰ',sub:'科目B-1'},PM2:{name:'午後Ⅱ',sub:'科目B-2・論文'}};
+const YEARS={R1:'令和元年',R2:'令和2年',R3:'令和3年',R4:'令和4年',R5:'令和5年',R6:'令和6年',R7:'令和7年',R8:'令和8年'};
+const KANA=['ア','イ','ウ','エ'];
+const LS={q:'sa-drill.questions.v1',h:'sa-drill.history.v1',s:'sa-drill.setup.v1'};
+const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let Q=load(LS.q,null)||JSON.parse(JSON.stringify(SEED));
+let DR=load('sa-drill.drafts.v1',{});
+/* 問題データは図を含むと大きくなるので IndexedDB に保存する */
+const IDB={db:null,
+  open(){return new Promise(res=>{try{const r=indexedDB.open('sa-drill',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>{this.db=r.result;res(true)};r.onerror=()=>res(false)}catch(e){res(false)}})},
+  get(k){return new Promise(res=>{if(!this.db)return res(undefined);try{const t=this.db.transaction('kv').objectStore('kv').get(k);t.onsuccess=()=>res(t.result);t.onerror=()=>res(undefined)}catch(e){res(undefined)}})},
+  set(k,v){if(!this.db)return false;try{this.db.transaction('kv','readwrite').objectStore('kv').put(v,k);return true}catch(e){return false}}};
+let H=load(LS.h,{});
+let setup=Object.assign({exam:'AM2',years:[],cats:[],count:'10',mode:'normal',dedup:true,picked:[],noEmb:false,nos:[]},load(LS.s,{}));
+let S=null, statsExam='AM2', dupGroups=null, confirmKey=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const yl=y=>YEARS[y]||y;
+/* 年度は新しい順（R7, R6, …）。R10以降も正しく並ぶよう数値として比較する */
+const byYearDesc=(a,b)=>String(b).localeCompare(String(a),'ja',{numeric:true});
+const pct=x=>Math.round(x*100)+'%';
+const persist=()=>{if(!IDB.set('questions',Q))save(LS.q,Q);save(LS.h,H);save(LS.s,setup)};
+let draftT;const saveDrafts=()=>{clearTimeout(draftT);draftT=setTimeout(()=>save('sa-drill.drafts.v1',DR),400)};
+/* 午後問題の本文：段落・見出し・表・図のブロックを描画 */
+const inl=s=>esc(s).replace(/__(.+?)__/g,'<u>$1</u>').replace(/\[\[(.+?)\]\]/g,'<span class="blank">$1</span>');
+function cellHtml(c,tag){const o=typeof c==='object'&&c?c:{s:c};return `<${tag}${o.cs?` colspan="${o.cs}"`:''}${o.rs?` rowspan="${o.rs}"`:''}>${inl(o.s??'')}</${tag}>`}
+function caseHtml(q){
+  if(!q.blocks)return `<div class="case">${esc(q.case||'')}</div>`;
+  return `<div class="case-body">${q.blocks.map(b=>{
+    if(b.t==='h')return `<h3 class="sec">${inl(b.s)}</h3>`;
+    if(b.t==='table')return `<figure class="fig"><figcaption>${inl(b.cap||'')}</figcaption><div class="tbl-wrap"><table class="ct">${b.head?`<thead><tr>${b.head.map(c=>cellHtml(c,'th')).join('')}</tr></thead>`:''}<tbody>${b.rows.map(r=>`<tr>${r.map(c=>cellHtml(c,'td')).join('')}</tr>`).join('')}</tbody></table></div>${b.note?`<p class="fnote">${inl(b.note)}</p>`:''}</figure>`;
+    if(b.t==='img')return `<figure class="fig"><div class="imgbox"><img src="${b.src}" alt="${esc(b.cap||'図')}" loading="lazy"></div>${b.note?`<p class="fnote">${inl(b.note)}</p>`:''}</figure>`;
+    return `<p class="para">${inl(b.s)}</p>`}).join('')}</div>`}
+const subQ=s=>{const m=/^(設問\S*)\s+([\s\S]*)$/.exec(s);return m?`<b>${inl(m[1])}</b>　${inl(m[2])}`:inl(s)};
+function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2200)}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* ===== 重複判定 ===== */
+const norm=s=>String(s||'').normalize('NFKC').replace(/[\s、，,。．.・「」『』()（）?？!！:：]/g,'').toLowerCase();
+const dupKey=q=>q.exam+'|'+(q.exam==='AM2'?norm(q.q)+'|'+(q.c||[]).map(norm).join('|'):norm(q.title)+'|'+norm(q.case||(q.blocks||[]).map(b=>b.s||'').join('')).slice(0,200));
+function findDups(){const m=new Map();for(const q of Q){const k=dupKey(q);if(!m.has(k))m.set(k,[]);m.get(k).push(q)}
+  return[...m.values()].filter(g=>g.length>1).map(g=>g.sort((a,b)=>String(a.year).localeCompare(String(b.year))))}
+
+/* ===== 成績計算 ===== */
+const keysOf=q=>q.exam==='PM1'?q.subs.map((_,i)=>q.id+'#'+i):[q.id];
+const val=r=>r.ok!==undefined?(r.ok?1:0):r.s;
+function stat(q){let n=0,sum=0,ls=0,lk=0,att=0,lt=0;
+  for(const k of keysOf(q)){const rs=H[k]||[];n+=rs.length;att=Math.max(att,rs.length);for(const r of rs)sum+=val(r);
+    if(rs.length){const l=rs[rs.length-1];ls+=val(l);lk++;lt=Math.max(lt,l.t)}}
+  return{n,att,avg:n?sum/n:0,last:lk?ls/lk:0,lt}}
+const isWeak=q=>{const s=stat(q);return s.att>0&&(s.last<1||s.avg<.75)};
+const weakness=q=>{const s=stat(q);return(1-s.last)*1.5+(1-s.avg)+Math.min(s.att,5)*.05};
+
+function filtered(){
+  let list=Q.filter(q=>q.exam===setup.exam&&(q.exam==='AM2'||!setup.noEmb||!isEmb(q))&&(q.exam==='AM2'||!(setup.nos||[]).length||(setup.nos||[]).includes(qNo(q)))&&(!setup.years.length||setup.years.includes(q.year))&&(!setup.cats.length||setup.cats.includes(q.cat)));
+  if(setup.dedup){const seen=new Set();list=list.filter(q=>{const k=dupKey(q);if(seen.has(k))return false;seen.add(k);return true})}
+  return list}
+/* 問番号（タイトルが「問3 …」の形式のとき）と、組込みシステム系の判定 */
+const qNo=q=>{const m=/^\s*問\s*([0-9０-９]+)/.exec(q.title||'');return m?String(+m[1].normalize('NFKC')):null};
+const EMB_RE=/組込み|組み込み|組込|ファームウェア|RTOS|リアルタイムOS|マイコン|ECU/i;
+const isEmb=q=>q.embedded===true||(q.embedded!==false&&EMB_RE.test([q.title,q.cat,q.case,...(q.blocks||[]).map(b=>b.s||''),...(q.subs||[]).map(x=>x.q)].join(' ')));
+/* 午後Ⅰ・午後Ⅱで個別に指定された問題（絞り込み後に残っているものだけ） */
+function pickedList(){if(setup.exam==='AM2'||!(setup.picked||[]).length)return[];
+  const ids=new Set(setup.picked);return filtered().filter(q=>ids.has(q.id))}
+function buildPool(){
+  const pk=pickedList();if(pk.length)return shuffle(pk.slice());
+  let list=filtered();
+  if(setup.mode==='unseen')list=shuffle(list.filter(q=>!stat(q).att));
+  else if(setup.mode==='weak')list=list.filter(isWeak).sort((a,b)=>weakness(b)-weakness(a));
+  else shuffle(list);
+  return setup.count==='all'?list:list.slice(0,+setup.count)}
+
+/* ===== 画面切替 ===== */
+function show(v){for(const x of['setup','quiz','result','stats','data'])$('#view-'+x).hidden=x!==v;
+  const tab=['setup','quiz','result'].includes(v)?'drill':v;
+  for(const t of['drill','stats','data'])$('#nav-'+t).setAttribute('aria-current',t===tab);
+  window.scrollTo(0,0)}
+
+/* ===== 演習：設定 ===== */
+function renderSetup(){
+  const ex=setup.exam, inEx=Q.filter(q=>q.exam===ex);
+  if(ex==='PM2'&&setup.mode==='weak')setup.mode='normal';
+  const years=[...new Set(Q.filter(q=>q.exam===ex).map(q=>q.year))].sort(byYearDesc);
+  const cats=[...new Set(inEx.map(q=>q.cat))];
+  setup.years=setup.years.filter(y=>years.includes(y));setup.cats=setup.cats.filter(c=>cats.includes(c));
+  const base=filtered(), weakN=base.filter(isWeak).length, unseenN=base.filter(q=>!stat(q).att).length;
+  const pk=pickedList(), usePick=pk.length>0;
+  const avail=setup.mode==='weak'?weakN:setup.mode==='unseen'?unseenN:base.length;
+  const n=usePick?pk.length:(setup.count==='all'?avail:Math.min(+setup.count,avail));
+  const dupN=findDups().length;
+  const embN=ex==='AM2'?0:inEx.filter(isEmb).length;
+  const nums=ex==='AM2'?[]:[...new Set(inEx.map(qNo).filter(Boolean))].sort((a,b)=>a-b);
+  const pickable=ex==='AM2'?[]:[...base].sort((a,b)=>byYearDesc(a.year,b.year)||String(a.id).localeCompare(String(b.id)));
+  const chip=(act,v,label,on,cnt)=>`<button type="button" class="chip" data-act="${act}" data-v="${esc(v)}" aria-pressed="${on}">${esc(label)}${cnt!=null?`<span class="n">${cnt}</span>`:''}</button>`;
+  $('#view-setup').innerHTML=`
+  <div class="stack" style="gap:6px"><h1>演習を始める</h1>
+  <p class="muted" style="margin:0">区分・年度・分野を絞り込んで出題します。間違えた問題は「苦手重点」でまとめて解き直せます。</p></div>
+  ${Q.some(q=>q.src==='original')?`<p class="note" style="margin:0">収録している問題は、頻出論点をもとにしたオリジナル例題です。IPA公開の過去問は<a href="https://www.ipa.go.jp/shiken/mondai-kaiotu/index.html" target="_blank" rel="noopener">IPAの過去問題ページ</a>から入手し、「問題データ」タブで読み込めます。</p>`:''}
+  <div class="sheet stack">
+    <div class="field"><span class="lab">試験区分</span><div class="seg">
+      ${Object.entries(EXAMS).map(([k,e])=>`<button type="button" data-act="exam" data-v="${k}" aria-pressed="${ex===k}">${e.name}<small>${e.sub}・${Q.filter(q=>q.exam===k).length}問</small></button>`).join('')}
+    </div></div>
+    <div class="field"><span class="lab">年度</span><div class="chips">
+      ${chip('year','',"すべて",!setup.years.length)}${years.map(y=>chip('year',y,yl(y),setup.years.includes(y),inEx.filter(q=>q.year===y).length)).join('')}
+    </div></div>
+    <div class="field"><span class="lab">分野</span><div class="chips">
+      ${chip('cat','',"すべて",!setup.cats.length)}${cats.map(c=>chip('cat',c,c,setup.cats.includes(c),inEx.filter(q=>q.cat===c).length)).join('')}
+    </div></div>
+    ${nums.length?`<div class="field"><span class="lab">問番号</span><div class="chips">${chip('qno','','すべて',!(setup.nos||[]).length)}${nums.map(n=>chip('qno',n,'問'+n,(setup.nos||[]).includes(n),inEx.filter(q=>qNo(q)===n).length)).join('')}</div></div>`:''}
+    ${ex==='AM2'?'':`<div class="field"><span class="lab">問題を指定（任意）</span>
+      ${pickable.length?`<div class="chips">${pickable.map(q=>chip('pickq',q.id,yl(q.year)+' '+(q.title||q.id),(setup.picked||[]).includes(q.id))).join('')}${(setup.picked||[]).length?chip('pickq','','選択をクリア',false):''}</div>
+      <span class="muted" style="font-size:12px">${usePick?`指定した${pk.length}問をそのまま出題します（出題モード・問題数は無視されます）。`:'選ぶと、その問題だけを出題します。選ばなければ下の条件でランダムに出題します。'}</span>`
+      :'<span class="muted" style="font-size:13px">該当する問題がありません。「問題データ」タブで読み込めます。</span>'}</div>`}
+    <div class="field"><span class="lab">出題モード</span><div class="seg">
+      <button type="button" data-act="mode" data-v="normal" aria-pressed="${setup.mode==='normal'}">ランダム<small>${base.length}問</small></button>
+      <button type="button" data-act="mode" data-v="unseen" aria-pressed="${setup.mode==='unseen'}">未解答のみ<small>${unseenN}問</small></button>
+      ${ex==='PM2'?'':`<button type="button" data-act="mode" data-v="weak" aria-pressed="${setup.mode==='weak'}">苦手重点<small>${weakN}問</small></button>`}
+    </div></div>
+    <div class="field"><span class="lab">問題数</span><div class="seg">
+      ${['5','10','20','all'].map(c=>`<button type="button" data-act="count" data-v="${c}" aria-pressed="${setup.count===c}">${c==='all'?'すべて':c+'問'}</button>`).join('')}
+    </div></div>
+    <label class="check"><input type="checkbox" id="opt-dedup" ${setup.dedup?'checked':''}> 年度をまたいで同じ問題は1回だけ出題する${dupN?`<span class="muted" style="font-size:12px">（重複 ${dupN}組）</span>`:''}</label>
+    <div class="row">
+      <button type="button" class="btn primary" data-act="start" ${n?'':'disabled'}>${n?n+'問で開始':'該当する問題がありません'}</button>
+      ${setup.mode==='weak'&&!weakN?'<span class="muted" style="font-size:13px">まだ間違えた問題がありません。ランダムで解くと記録されます。</span>':''}
+      ${S&&S.i<S.items.length?'<button type="button" class="btn" data-act="resume">途中の演習に戻る</button>':''}
+    </div>
+  </div>`;
+  $('#opt-dedup').onchange=e=>{setup.dedup=e.target.checked;persist();renderSetup()};
+  if($('#opt-noemb'))$('#opt-noemb').onchange=e=>{setup.noEmb=e.target.checked;persist();renderSetup()};}
+
+/* ===== 演習：出題 ===== */
+function startSession(items){if(!items.length)return;S={items:items.map(q=>q.id),i:0,res:[],ans:null,pm:{}};renderQuiz();show('quiz')}
+const byId=id=>Q.find(q=>q.id===id);
+function head(q){const also=(q.alsoIn||[]).length?`<span class="tag alt">${[q.year,...q.alsoIn].map(yl).join('・')} 出題</span>`:'';
+  return`<div class="qhead"><span class="tag">${esc(EXAMS[q.exam].name)}</span><span class="tag">${esc(yl(q.year))}</span><span class="tag">${esc(q.cat)}</span>${also}${q.src==='original'?'<span class="tag alt">オリジナル例題</span>':''}<span class="prog">${S.i+1} / ${S.items.length}</span></div>
+  <div class="progbar"><i style="width:${S.i/S.items.length*100}%"></i></div>`}
+function renderQuiz(){
+  const q=byId(S.items[S.i]);if(!q){S.i++;return S.i<S.items.length?renderQuiz():finish()}
+  const v=$('#view-quiz');
+  if(q.exam==='AM2'){
+    const done=S.ans!==null, ok=done&&S.ans===q.a;
+    v.innerHTML=`<div class="sheet stack">${head(q)}
+      <div class="qtext">${esc(q.q)}</div>
+      ${q.image?'<p class="note" style="margin:0">この問題は図を含みます。図は問題冊子で確認してください。</p>':''}
+      <div class="choices">${q.c.map((c,i)=>{let cls='';if(done){if(i===q.a)cls='is-correct';else if(i===S.ans)cls='is-wrong'}
+        return`<button type="button" class="choice ${cls}" data-act="pick" data-v="${i}" ${done?'disabled':''}><span class="bubble">${KANA[i]}</span><span>${esc(c)}</span></button>`}).join('')}</div>
+      ${done?`<div class="exp">
+        <div class="verdict ${ok?'ok':'ng'}">${ok?'正解':'不正解'}</div>
+        <div class="ans"><span class="lab">解説</span><span>${q.exp?esc(q.exp):'<span class="muted">この問題には解説が登録されていません。</span>'}</span></div>
+        ${q.ce?`<div class="ans"><span class="lab">選択肢ごとの解説</span><ul class="celist">${q.c.map((c,i)=>`<li class="${i===q.a?'is-ok':i===S.ans?'is-ng':''}"><span class="ck">${KANA[i]}</span><span>${i===q.a?'<b>正解</b>　上の解説を参照':esc(q.ce[i]||'')}${i===S.ans&&i!==q.a?'<span class="mine">あなたの解答</span>':''}</span></li>`).join('')}</ul></div>`:''}
+        ${q.verify?'<p class="note" style="margin:0">この年度は解答例PDFが空欄だったため、正答は推定です。IPAの公式解答で確認してください。</p>':''}
+      </div>`:''}
+      <div class="row">${done?`<button type="button" class="btn primary" data-act="next">${S.i+1<S.items.length?'次の問題':'結果を見る'}</button>`:''}
+      <button type="button" class="btn" data-act="quit">中断して結果を見る</button>
+      <span class="muted hide-sm" style="font-size:12px"><span class="kbd">1</span>〜<span class="kbd">4</span> で解答、<span class="kbd">Enter</span> で次へ</span></div>
+    </div>`;
+  }else if(q.exam==='PM2'){
+    const d=DR[q.id]||(DR[q.id]=q.subs.map(()=>''));
+    v.innerHTML=`<div class="sheet stack">${head(q)}
+      <h2>${esc(q.title)}</h2>${caseHtml(q)}
+      ${q.subs.map((s,i)=>`<div class="sub"><div class="subq">${subQ(s.q)}</div>
+        <textarea id="pm-${i}" class="essay" placeholder="論述の骨子や下書き（このブラウザに自動保存されます）">${esc(d[i]||'')}</textarea>
+        <div class="cc" id="cc-${i}"></div></div>`).join('')}
+      <div class="row"><button type="button" class="btn primary" data-act="pm2done">${S.i+1<S.items.length?'取り組み済みにして次へ':'取り組み済みにして結果へ'}</button>
+      <button type="button" class="btn" data-act="quit">中断して結果を見る</button></div>
+    </div>`;
+    q.subs.forEach((s,i)=>{const ta=$('#pm-'+i);const upd=()=>{d[i]=ta.value;saveDrafts();const n=[...ta.value].length;const cc=$('#cc-'+i);
+      cc.textContent=`${n}字（${s.min?s.min+'字以上 ':''}${s.limit}字以内）`;cc.classList.toggle('over',n>s.limit);cc.classList.toggle('short',!!s.min&&n>0&&n<s.min)};ta.oninput=upd;upd()});
+  }else{
+    const st=S.pm[q.id]||(S.pm[q.id]={txt:q.subs.map(()=>''),shown:false,g:q.subs.map(()=>null)});
+    v.innerHTML=`<div class="sheet stack">${head(q)}
+      <h2>${esc(q.title)}</h2>${caseHtml(q)}
+      ${q.subs.map((s,i)=>`<div class="sub"><div class="subq">${/^設問/.test(s.q)?subQ(s.q):`<b>設問${i+1}</b>　${inl(s.q)}`}</div>
+        <textarea id="pm-${i}" data-i="${i}" placeholder="解答を入力" ${st.shown?'readonly':''}>${esc(st.txt[i])}</textarea>
+        <div class="cc" id="cc-${i}"></div>
+        ${st.shown?`<div class="model"><b>解答例</b><div class="mtext">${esc(s.model)}</div>${s.points?`<div class="muted" style="font-size:13px;margin-top:4px">採点のポイント：${esc(s.points)}</div>`:''}</div>
+        <div class="row"><span class="lab">自己採点</span><div class="grade">${[['1','○'],['0.5','△'],['0','×']].map(([g,l])=>`<button type="button" data-act="grade" data-q="${i}" data-v="${g}" aria-pressed="${st.g[i]===+g}" aria-label="${l}">${l}</button>`).join('')}</div></div>`:''}
+      </div>`).join('')}
+      <div class="row">${st.shown?`<button type="button" class="btn primary" data-act="pmnext" ${st.g.every(g=>g!==null)?'':'disabled'}>${S.i+1<S.items.length?'採点を記録して次へ':'採点を記録して結果へ'}</button>`:'<button type="button" class="btn primary" data-act="reveal">解答例を表示</button>'}
+      <button type="button" class="btn" data-act="quit">中断して結果を見る</button></div>
+    </div>`;
+    q.subs.forEach((s,i)=>{const ta=$('#pm-'+i);const upd=()=>{st.txt[i]=ta.value;const n=[...ta.value].length;const cc=$('#cc-'+i);cc.textContent=n+' / '+s.limit+'字';cc.classList.toggle('over',n>s.limit)};ta.oninput=upd;upd()});
+  }
+}
+function pick(i){const q=byId(S.items[S.i]);if(S.ans!==null)return;S.ans=i;const ok=i===q.a;
+  (H[q.id]=H[q.id]||[]).push({t:Date.now(),ok});S.res.push({id:q.id,score:ok?1:0});persist();renderQuiz()}
+function next(){S.i++;S.ans=null;S.i<S.items.length?renderQuiz():finish()}
+function pmNext(){const q=byId(S.items[S.i]),st=S.pm[q.id],t=Date.now();
+  st.g.forEach((g,i)=>(H[q.id+'#'+i]=H[q.id+'#'+i]||[]).push({t,s:g}));
+  S.res.push({id:q.id,score:st.g.reduce((a,b)=>a+b,0)/st.g.length});persist();next()}
+
+/* ===== 演習：結果 ===== */
+function finish(){
+  const r=S.res, avg=r.length?r.reduce((a,b)=>a+b.score,0)/r.length:0, wrong=r.filter(x=>x.score<1);
+  S.i=S.items.length;
+  if(r.length&&r.every(x=>byId(x.id)?.exam==='PM2')){
+    $('#view-result').innerHTML=`<div class="sheet stack"><div class="lab">演習結果</div>
+      <p style="margin:0">午後Ⅱの問題に ${r.length}問 取り組みました。下書きはこのブラウザに保存されています。</p>
+      <div class="tbl-wrap"><table><thead><tr><th>年度</th><th>問題</th><th style="text-align:right">下書きの字数</th></tr></thead><tbody>
+      ${r.map(x=>{const q=byId(x.id);if(!q)return'';const n=(DR[q.id]||[]).map(t=>[...(t||'')].length);return`<tr><td>${esc(yl(q.year))}</td><td class="qsnip">${esc(q.title)}</td><td class="num">${n.join(' / ')||'—'}</td></tr>`}).join('')}
+      </tbody></table></div>
+      <div class="row"><button type="button" class="btn" data-act="tosetup">演習の設定に戻る</button></div></div>`;
+    return show('result')}
+  $('#view-result').innerHTML=`<div class="sheet stack">
+    <div class="lab">演習結果</div>
+    <div class="row" style="gap:24px;align-items:baseline"><span style="font-family:var(--f-mono);font-size:44px;line-height:1">${pct(avg)}</span>
+    <span class="muted">${r.length}問中 ${r.filter(x=>x.score===1).length}問 正解${wrong.length?`／要復習 ${wrong.length}問`:''}</span></div>
+    ${avg>=.6?'<p style="margin:0">午前Ⅱの基準点は60%です。この水準を保てています。</p>':r.length?'<p style="margin:0">基準点の60%に届いていません。間違えた問題を解き直しましょう。</p>':''}
+    ${r.length?`<div class="tbl-wrap"><table><thead><tr><th>年度</th><th>分野</th><th>問題</th><th style="text-align:right">結果</th></tr></thead><tbody>
+    ${r.map(x=>{const q=byId(x.id);if(!q)return'';return`<tr><td>${esc(yl(q.year))}</td><td>${esc(q.cat)}</td><td class="qsnip">${esc(q.title||q.q)}</td><td class="num">${pill(x.score)}</td></tr>`}).join('')}
+    </tbody></table></div>`:''}
+    <div class="row">${wrong.length?`<button type="button" class="btn primary" data-act="retry">間違えた${wrong.length}問を解き直す</button>`:''}
+    <button type="button" class="btn" data-act="tosetup">演習の設定に戻る</button>
+    <button type="button" class="btn" data-act="nav" data-v="stats">分析を見る</button></div>
+  </div>`;
+  show('result')}
+function pill(s){return s===1?'<span class="pill ok">正解</span>':s===0?'<span class="pill ng">不正解</span>':`<span class="pill mid">${pct(s)}</span>`}
+
+/* ===== 分析 ===== */
+function renderStats(){
+  const all=Q.filter(q=>q.exam===statsExam), tried=all.filter(q=>stat(q).att);
+  let n=0,sum=0;const days=new Set();
+  for(const q of all)for(const k of keysOf(q))for(const r of(H[k]||[])){n++;sum+=val(r);days.add(new Date(r.t).toDateString())}
+  const weak=all.filter(isWeak).sort((a,b)=>weakness(b)-weakness(a));
+  const group=f=>{const m=new Map();for(const q of all){const g=f(q);if(!m.has(g))m.set(g,{tot:0,tried:0,n:0,sum:0});const o=m.get(g);o.tot++;const s=stat(q);if(s.att)o.tried++;
+    for(const k of keysOf(q))for(const r of(H[k]||[])){o.n++;o.sum+=val(r)}}return[...m.entries()]};
+  const meter=o=>{if(!o.n)return'<span class="muted" style="font-size:12px">未解答</span>';const a=o.sum/o.n;const col=a>=.8?'var(--ok)':a>=.6?'var(--mark)':'var(--ng)';
+    return`<div class="meter" title="基準点60%"><i style="width:${a*100}%;background:${col}"></i><span class="line"></span></div>`};
+  const tbl=(rows,label)=>`<div class="tbl-wrap"><table><thead><tr><th>${label}</th><th style="text-align:right">着手</th><th style="width:38%">正答率</th><th style="text-align:right"></th></tr></thead><tbody>
+    ${rows.map(([g,o])=>`<tr><td>${esc(g)}</td><td class="num">${o.tried}/${o.tot}</td><td>${meter(o)}</td><td class="num">${o.n?pct(o.sum/o.n):'—'}</td></tr>`).join('')}</tbody></table></div>`;
+  const catRows=group(q=>q.cat).sort((a,b)=>(a[1].n?a[1].sum/a[1].n:2)-(b[1].n?b[1].sum/b[1].n:2));
+  const yearRows=group(q=>yl(q.year)).sort((a,b)=>byYearDesc(a[0],b[0]));
+  $('#view-stats').innerHTML=`
+  <div class="row" style="justify-content:space-between"><h1>過去の結果分析</h1>
+    <div class="seg">${Object.entries(EXAMS).filter(([k])=>k!=='PM2').map(([k,e])=>`<button type="button" data-act="sexam" data-v="${k}" aria-pressed="${statsExam===k}">${e.name}</button>`).join('')}</div></div>
+  ${!n?`<div class="sheet empty"><h3>まだ解答の記録がありません</h3><p>「演習」で${EXAMS[statsExam].name}を解くと、分野別の正答率と苦手問題がここに表示されます。</p><button type="button" class="btn primary" data-act="nav" data-v="drill">演習を始める</button></div>`:`
+  <div class="kpis">
+    <div class="kpi"><span class="lab">正答率</span><b>${pct(sum/n)}</b></div>
+    <div class="kpi"><span class="lab">着手した問題</span><b>${tried.length}<span class="muted" style="font-size:14px"> / ${all.length}</span></b></div>
+    <div class="kpi"><span class="lab">苦手問題</span><b style="color:${weak.length?'var(--ng)':'var(--ok)'}">${weak.length}</b></div>
+    <div class="kpi"><span class="lab">学習した日数</span><b>${days.size}</b></div>
+  </div>
+  <div class="sheet stack"><div class="row" style="justify-content:space-between"><h2>苦手問題</h2>
+    ${weak.length?`<button type="button" class="btn primary" data-act="weakgo">苦手問題を再テスト（${Math.min(weak.length,20)}問）</button>`:''}</div>
+    <p class="muted" style="margin:0;font-size:13px">直近の解答が不正解か、通算の正答率が75%未満の問題です。直近で間違えた問題ほど上に並びます。</p>
+    ${weak.length?`<div class="tbl-wrap"><table><thead><tr><th>年度</th><th>問題</th><th style="text-align:right">回数</th><th style="text-align:right">正答率</th><th style="text-align:right">直近</th></tr></thead><tbody>
+      ${weak.slice(0,20).map(q=>{const s=stat(q);return`<tr><td style="white-space:nowrap">${esc(yl(q.year))}</td><td class="qsnip" title="${esc(q.title||q.q)}">${esc(q.title||q.q)}</td><td class="num">${s.att}</td><td class="num">${pct(s.avg)}</td><td class="num">${pill(s.last)}</td></tr>`}).join('')}
+    </tbody></table></div>`:'<p class="empty" style="padding:12px">苦手問題はありません。</p>'}
+  </div>
+  <div class="sheet stack"><h2>分野別の正答率</h2><p class="muted" style="margin:0;font-size:13px">正答率の低い分野から順に並べています。縦線は基準点の60%です。</p>${tbl(catRows,'分野')}</div>
+  <div class="sheet stack"><h2>年度別の正答率</h2>${tbl(yearRows,'年度')}</div>`}`;
+}
+
+/* ===== 問題データ ===== */
+const SAMPLE_JSON=`[
+  {"exam":"AM2","year":"R5","cat":"データベース","q":"問題文","c":["選択肢ア","選択肢イ","選択肢ウ","選択肢エ"],"a":0,"exp":"解説（解答後に表示）"},
+  {"exam":"PM1","year":"R5","cat":"システム方式設計","title":"問1 タイトル","case":"問題文（事例）",
+   "subs":[{"q":"設問1","limit":30,"model":"解答例","points":"採点のポイント"}]}
+]`;
+function renderData(){
+  const byEx=k=>Q.filter(q=>q.exam===k);
+  const years=[...new Set(Q.map(q=>q.year))].sort(byYearDesc);
+  const confirmRow=(k,label,act)=>confirmKey===k?`<span class="row"><span style="font-size:14px">${label}</span><button type="button" class="btn danger" data-act="${act}">消去する</button><button type="button" class="btn" data-act="cancel">やめる</button></span>`:'';
+  $('#view-data').innerHTML=`
+  <h1>問題データ</h1>
+  <div class="sheet stack"><h2>収録状況</h2>
+    <div class="tbl-wrap"><table><thead><tr><th>区分</th>${years.map(y=>`<th style="text-align:right">${esc(yl(y))}</th>`).join('')}<th style="text-align:right">計</th></tr></thead><tbody>
+    ${Object.entries(EXAMS).map(([k,e])=>`<tr><td>${e.name}</td>${years.map(y=>`<td class="num">${byEx(k).filter(q=>q.year===y).length||'—'}</td>`).join('')}<td class="num">${byEx(k).length}</td></tr>`).join('')}
+    </tbody></table></div></div>
+
+  <div class="sheet stack"><h2>重複の整理</h2>
+    <p class="muted" style="margin:0;font-size:14px">IPAは過去問を別の年度で再出題することがあります。空白・句読点・全角半角の違いを無視して同じ問題を探し、1問に統合します。統合すると解答記録も1つにまとまり、出題年度がすべて表示されます。</p>
+    <div class="row"><button type="button" class="btn" data-act="dupscan">重複を探す</button></div>
+    ${dupGroups?dupGroups.length?`<div class="stack" style="gap:10px">${dupGroups.map(g=>`<div class="dup"><b>${esc(g[0].title||g[0].q)}</b><span class="muted" style="font-size:13px">残す：${esc(yl(g[0].year))}（${esc(g[0].id)}）／統合する：${g.slice(1).map(x=>esc(yl(x.year))+'（'+esc(x.id)+'）').join('、')}</span></div>`).join('')}</div>
+      <div class="row"><button type="button" class="btn primary" data-act="dupmerge">${dupGroups.length}組を統合する</button></div>`:'<p style="margin:0">重複している問題はありません。</p>':''}
+  </div>
+
+  <div class="sheet stack"><h2>問題を読み込む</h2>
+    <p class="muted" style="margin:0;font-size:14px">JSON形式のファイルを選ぶか、テキストを貼り付けてください。同じIDの問題は上書きされます。</p>
+    <input type="file" id="imp-file" accept=".json,application/json" multiple>
+    <textarea class="code" id="imp-text" placeholder="ここにJSONを貼り付け"></textarea>
+    <div class="row"><label class="check"><input type="radio" name="impmode" id="imp-add" checked> 今の問題に追加</label>
+    <label class="check"><input type="radio" name="impmode" id="imp-rep"> 例題を消して置き換え</label>
+    <button type="button" class="btn primary" data-act="import">読み込む</button></div>
+    <details><summary>JSONの書式を見る</summary><pre>${esc(SAMPLE_JSON)}</pre>
+    <p class="muted" style="font-size:13px">a は正答の番号（0=ア, 1=イ, 2=ウ, 3=エ）。year は R5 のような和暦略号。id を省略すると自動で付けます。</p></details>
+  </div>
+
+  <div class="sheet stack"><h2>書き出す</h2>
+    <p class="muted" style="margin:0;font-size:14px">問題と解答記録を書き出します。別の端末やブラウザに移すときは、この内容をコピーして保存してください。</p>
+    <div class="row"><button type="button" class="btn" data-act="exportq">問題を書き出す</button><button type="button" class="btn" data-act="exporth">解答記録を書き出す</button><button type="button" class="btn" data-act="copy">コピー</button></div>
+    <textarea class="code" id="exp-text" readonly placeholder="書き出したJSONがここに表示されます"></textarea>
+    <details><summary>解答記録を読み込む</summary>
+      <textarea class="code" id="imp-hist" placeholder="書き出した解答記録のJSONを貼り付け"></textarea>
+      <div class="row" style="margin-top:8px"><button type="button" class="btn" data-act="importh">解答記録を読み込む</button></div></details>
+  </div>
+
+  <div class="sheet stack"><h2>リセット</h2>
+    <p class="muted" style="margin:0;font-size:14px">データはこのブラウザの中だけに保存されています。</p>
+    <div class="row">
+      ${confirmKey==='h'?confirmRow('h','解答記録をすべて消去しますか？','resetH'):'<button type="button" class="btn danger" data-act="ask" data-v="h">解答記録を消去</button>'}
+      ${confirmKey==='q'?confirmRow('q','問題を初期の例題に戻しますか？','resetQ'):'<button type="button" class="btn danger" data-act="ask" data-v="q">問題を初期状態に戻す</button>'}
+    </div></div>`;
+  $('#imp-file').onchange=async e=>{const fs=[...e.target.files];if(!fs.length)return;let all=[];
+    for(const f of fs){try{const v=JSON.parse(await f.text());all=all.concat(Array.isArray(v)?v:[v])}catch(err){return toast(f.name+' を読み取れません。JSONの書式を確認してください')}}
+    $('#imp-text').value=JSON.stringify(all);toast(`${fs.length}ファイル・${all.length}問を読み込みました。「読み込む」を押してください`)};
+}
+function doImport(){
+  let arr;try{arr=JSON.parse($('#imp-text').value);if(!Array.isArray(arr))arr=[arr]}catch(e){return toast('JSONを読み取れません。書式を確認してください')}
+  const bad=[],ok=[];
+  arr.forEach((q,i)=>{const e=[];if(!['AM2','PM1','PM2'].includes(q.exam))e.push('exam');if(!q.year)e.push('year');if(!q.cat)e.push('cat');
+    if(q.exam==='AM2'&&(!q.q||!Array.isArray(q.c)||q.c.length!==4||!(q.a>=0&&q.a<=3)))e.push('q/c/a');
+    if(q.exam!=='AM2'&&(!q.title||!(q.case||Array.isArray(q.blocks))||!Array.isArray(q.subs)||!q.subs.length))e.push('title/本文/subs');
+    if(e.length)bad.push(`${i+1}件目（${e.join(',')}）`);else{if(!q.id)q.id=`${q.exam}-${q.year}-u${Date.now().toString(36)}${i}`;q.src='import';if(q.exam==='PM1')q.subs.forEach(s=>s.limit=s.limit||40);ok.push(q)}});
+  if(!ok.length)return toast('読み込める問題がありません：'+bad.slice(0,3).join('、'));
+  if($('#imp-rep').checked)Q=Q.filter(q=>q.src!=='original');
+  /* 以前取り込んだ「解答要点のみ」の午後Ⅰは、本文付きの同じ問題で置き換える */
+  const pk=q=>q.exam+q.year+String(q.title||'').split(' ')[0];const full=new Set(ok.filter(q=>!q.casePending).map(pk));
+  Q=Q.filter(q=>!(q.casePending&&full.has(pk(q))));
+  const ids=new Set(ok.map(q=>q.id));Q=Q.filter(q=>!ids.has(q.id)).concat(ok);
+  persist();dupGroups=findDups();renderData();
+  toast(`${ok.length}問を読み込みました${bad.length?`（${bad.length}件は書式エラーで除外）`:''}${dupGroups.length?`。重複が${dupGroups.length}組あります`:''}`)}
+function mergeDups(){
+  for(const g of findDups()){const keep=g[0];keep.alsoIn=[...new Set([...(keep.alsoIn||[]),...g.slice(1).flatMap(x=>[x.year,...(x.alsoIn||[])])])].filter(y=>y!==keep.year).sort();
+    for(const d of g.slice(1)){const ka=keysOf(keep),kd=keysOf(d);kd.forEach((k,i)=>{if(H[k]&&ka[i]){H[ka[i]]=(H[ka[i]]||[]).concat(H[k]).sort((a,b)=>a.t-b.t)}delete H[k]});Q=Q.filter(q=>q!==d)}}
+  persist();const n=dupGroups.length;dupGroups=[];renderData();toast(n+'組の重複を統合しました')}
+
+/* ===== イベント ===== */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const v=b.dataset.v;
+  switch(b.dataset.act){
+    case'nav':if(v==='drill'){if(S&&S.i<S.items.length){show('quiz')}else{renderSetup();show('setup')}}else if(v==='stats'){renderStats();show('stats')}else{confirmKey=null;renderData();show('data')}break;
+    case'exam':setup.exam=v;setup.cats=[];setup.years=[];setup.picked=[];setup.nos=[];persist();renderSetup();break;
+    case'qno':{const p=setup.nos||[];setup.nos=v?(p.includes(v)?p.filter(x=>x!==v):[...p,v]):[];persist();renderSetup();break}
+    case'pickq':{const p=setup.picked||[];setup.picked=v?(p.includes(v)?p.filter(x=>x!==v):[...p,v]):[];persist();renderSetup();break}
+    case'year':setup.years=v?(setup.years.includes(v)?setup.years.filter(x=>x!==v):[...setup.years,v]):[];persist();renderSetup();break;
+    case'cat':setup.cats=v?(setup.cats.includes(v)?setup.cats.filter(x=>x!==v):[...setup.cats,v]):[];persist();renderSetup();break;
+    case'mode':setup.mode=v;persist();renderSetup();break;
+    case'count':setup.count=v;persist();renderSetup();break;
+    case'start':startSession(buildPool());break;
+    case'resume':show('quiz');break;
+    case'pick':pick(+v);break;
+    case'next':next();break;
+    case'reveal':{const q=byId(S.items[S.i]);S.pm[q.id].shown=true;renderQuiz();break}
+    case'grade':{const q=byId(S.items[S.i]);S.pm[q.id].g[+b.dataset.q]=+v;renderQuiz();break}
+    case'pmnext':pmNext();break;
+    case'pm2done':{const q=byId(S.items[S.i]);(H[q.id]=H[q.id]||[]).push({t:Date.now(),s:1});S.res.push({id:q.id,score:1});save(LS.h,H);save('sa-drill.drafts.v1',DR);next();break}
+    case'quit':finish();break;
+    case'retry':startSession(S.res.filter(x=>x.score<1).map(x=>byId(x.id)).filter(Boolean));break;
+    case'tosetup':S=null;renderSetup();show('setup');break;
+    case'sexam':statsExam=v;renderStats();break;
+    case'weakgo':startSession(Q.filter(q=>q.exam===statsExam&&isWeak(q)).sort((a,b)=>weakness(b)-weakness(a)).slice(0,20));break;
+    case'dupscan':dupGroups=findDups();renderData();break;
+    case'dupmerge':mergeDups();break;
+    case'import':doImport();break;
+    case'exportq':$('#exp-text').value=JSON.stringify(Q,null,1);break;
+    case'exporth':$('#exp-text').value=JSON.stringify(H);break;
+    case'copy':{const t=$('#exp-text');if(!t.value)return toast('先に書き出してください');
+      navigator.clipboard?.writeText(t.value).then(()=>toast('コピーしました'),()=>{t.select();toast('選択しました。手動でコピーしてください')})??(t.select(),toast('選択しました。手動でコピーしてください'));break}
+    case'importh':try{const h=JSON.parse($('#imp-hist').value);for(const[k,rs]of Object.entries(h))H[k]=(H[k]||[]).concat(rs).sort((a,b)=>a.t-b.t);persist();toast('解答記録を読み込みました')}catch(err){toast('JSONを読み取れません')}break;
+    case'ask':confirmKey=v;renderData();break;
+    case'cancel':confirmKey=null;renderData();break;
+    case'resetH':H={};confirmKey=null;persist();renderData();toast('解答記録を消去しました');break;
+    case'resetQ':Q=JSON.parse(JSON.stringify(SEED));confirmKey=null;dupGroups=null;persist();renderData();toast('問題を初期状態に戻しました');break;
+  }});
+document.addEventListener('keydown',e=>{if($('#view-quiz').hidden||!S||['TEXTAREA','INPUT'].includes(document.activeElement.tagName))return;
+  const q=byId(S.items[S.i]);if(!q||q.exam!=='AM2')return;
+  if(S.ans===null&&/^[1-4]$/.test(e.key)){pick(+e.key-1)}else if(S.ans!==null&&(e.key==='Enter'||e.key==='ArrowRight')){e.preventDefault();next()}});
+
+renderSetup();show('setup');
+(async()=>{if(!await IDB.open())return;const v=await IDB.get('questions');
+  if(Array.isArray(v)&&v.length){Q=v}else if(load(LS.q,null)){IDB.set('questions',Q)}
+  try{localStorage.removeItem(LS.q)}catch(e){}
+  if(!$('#view-setup').hidden)renderSetup();else if(!$('#view-data').hidden)renderData()})();
+</script>
+
+</body></html>
