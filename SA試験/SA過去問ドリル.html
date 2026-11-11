@@ -243,6 +243,8 @@ const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}
 const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 let Q=load(LS.q,null)||JSON.parse(JSON.stringify(SEED));
 let DR=load('sa-drill.drafts.v1',{});
+let OM=load('sa-drill.outmodes.v1',{});            /* 午後Ⅱ：設問ごとの出力種別 'o'=骨子 / 'f'=本文 */
+let OP=load('sa-drill.outprefix.v1','SA論文を添削して。'); /* 出力の冒頭の指示文 */
 /* 問題データは図を含むと大きくなるので IndexedDB に保存する */
 const IDB={db:null,
   open(){return new Promise(res=>{try{const r=indexedDB.open('sa-drill',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>{this.db=r.result;res(true)};r.onerror=()=>res(false)}catch(e){res(false)}})},
@@ -270,6 +272,24 @@ function caseHtml(q){
     if(b.t==='img')return `<figure class="fig"><div class="imgbox"><img src="${b.src}" alt="${esc(b.cap||'図')}" loading="lazy"></div>${b.note?`<p class="fnote">${inl(b.note)}</p>`:''}</figure>`;
     return `<p class="para">${inl(b.s)}</p>`}).join('')}</div>`}
 const subQ=s=>{const m=/^(設問\S*)\s+([\s\S]*)$/.exec(s);return m?`<b>${inl(m[1])}</b>　${inl(m[2])}`:inl(s)};
+/* 午後Ⅱ：添削依頼用テキストの組み立て（問題文＋設問ごとの骨子／本文） */
+const omOf=q=>{const a=OM[q.id]||(OM[q.id]=[]);while(a.length<q.subs.length)a.push('o');return a};
+const plain=s=>String(s??'').replace(/__(.+?)__/g,'$1').replace(/\[\[(.+?)\]\]/g,'[$1]');
+function caseText(q){
+  if(!q.blocks)return String(q.case||'');
+  const cell=c=>plain(typeof c==='object'&&c?c.s:c);
+  return q.blocks.map(b=>{
+    if(b.t==='h')return plain(b.s);
+    if(b.t==='table')return[b.cap?plain(b.cap):'',(b.head?[b.head.map(cell).join(' | ')]:[]).concat(b.rows.map(r=>r.map(cell).join(' | '))).join('\n'),b.note?plain(b.note):''].filter(Boolean).join('\n');
+    if(b.t==='img')return'（図：'+plain(b.cap||'図')+'）';
+    return plain(b.s)}).join('\n\n')}
+function ronbunText(q){
+  const m=omOf(q),d=DR[q.id]||[];
+  const kinds=new Set(m.slice(0,q.subs.length));
+  const tail=kinds.size>1?'骨子と本文が混在しています（各設問に記載）。':(m[0]==='f'?'本文です。':'骨子です。');
+  const body=q.subs.map((s,i)=>String(s.q||'').replace(/^(設問\S*)\s+/,'$1　')+'\n('+(m[i]==='f'?'本文':'骨子')+')\n'+String(d[i]||'').trim()).join('\n\n');
+  return OP+tail+'\n\n【問題文】\n'+caseText(q)+'\n\n【論文】\n'+body}
+function refreshOut(q){const t=$('#out-text');if(t)t.value=ronbunText(q)}
 function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2200)}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
 
@@ -398,13 +418,22 @@ function renderQuiz(){
     v.innerHTML=`<div class="sheet stack">${head(q)}
       <h2>${esc(q.title)}</h2>${caseHtml(q)}
       ${q.subs.map((s,i)=>`<div class="sub"><div class="subq">${subQ(s.q)}</div>
-        <textarea id="pm-${i}" class="essay" placeholder="論述の骨子や下書き（このブラウザに自動保存されます）">${esc(d[i]||'')}</textarea>
+        <textarea id="pm-${i}" class="essay" placeholder="${omOf(q)[i]==='f'?'本文（このブラウザに自動保存されます）':'骨子（箇条書きで可。このブラウザに自動保存されます）'}">${esc(d[i]||'')}</textarea>
         <div class="cc" id="cc-${i}"></div></div>`).join('')}
+      <div class="sub"><span class="lab">添削用テキストの出力</span>
+        <label class="field"><span class="muted" style="font-size:13px">冒頭の指示文</span><input type="text" id="op-prefix" value="${esc(OP)}" style="font:inherit;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--sheet);color:var(--ink);width:100%"></label>
+        <div class="row" style="gap:14px">${q.subs.map((s,i)=>`<span class="row" style="gap:6px"><span class="muted" style="font-size:13px">${esc((/^(設問\S*)/.exec(s.q)||[])[1]||'設問'+(i+1))}</span><span class="seg"><button type="button" data-act="omode" data-q="${i}" data-v="o" aria-pressed="${omOf(q)[i]!=='f'}">骨子</button><button type="button" data-act="omode" data-q="${i}" data-v="f" aria-pressed="${omOf(q)[i]==='f'}">本文</button></span></span>`).join('')}</div>
+        <div class="row"><button type="button" class="btn" data-act="omall" data-v="o">すべて骨子</button><button type="button" class="btn" data-act="omall" data-v="f">すべて本文</button></div>
+        <textarea class="code" id="out-text" readonly style="min-height:220px"></textarea>
+        <div class="row"><button type="button" class="btn primary" data-act="copyout">コピー</button></div></div>
       <div class="row"><button type="button" class="btn primary" data-act="pm2done">${S.i+1<S.items.length?'取り組み済みにして次へ':'取り組み済みにして結果へ'}</button>
       <button type="button" class="btn" data-act="quit">中断して結果を見る</button></div>
     </div>`;
     q.subs.forEach((s,i)=>{const ta=$('#pm-'+i);const upd=()=>{d[i]=ta.value;saveDrafts();const n=[...ta.value].length;const cc=$('#cc-'+i);
-      cc.textContent=`${n}字（${s.min?s.min+'字以上 ':''}${s.limit}字以内）`;cc.classList.toggle('over',n>s.limit);cc.classList.toggle('short',!!s.min&&n>0&&n<s.min)};ta.oninput=upd;upd()});
+      if(omOf(q)[i]!=='f'){cc.textContent=`${n}字（骨子・字数制限なし）`;cc.classList.remove('over','short')}
+      else{cc.textContent=`${n}字（${s.min?s.min+'字以上 ':''}${s.limit}字以内）`;cc.classList.toggle('over',n>s.limit);cc.classList.toggle('short',!!s.min&&n>0&&n<s.min)}
+      refreshOut(q)};ta.oninput=upd;upd()});
+    const opi=$('#op-prefix');opi.oninput=()=>{OP=opi.value;save('sa-drill.outprefix.v1',OP);refreshOut(q)};
   }else{
     const st=S.pm[q.id]||(S.pm[q.id]={txt:q.subs.map(()=>''),shown:false,g:q.subs.map(()=>null)});
     v.innerHTML=`<div class="sheet stack">${head(q)}
@@ -423,7 +452,8 @@ function renderQuiz(){
 }
 function pick(i){const q=byId(S.items[S.i]);if(S.ans!==null)return;S.ans=i;const ok=i===q.a;
   (H[q.id]=H[q.id]||[]).push({t:Date.now(),ok});S.res.push({id:q.id,score:ok?1:0});persist();renderQuiz()}
-function next(){S.i++;S.ans=null;S.i<S.items.length?renderQuiz():finish()}
+function next(){S.i++;S.ans=null;S.i<S.items.length?renderQuiz():finish();
+  window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0}
 function pmNext(){const q=byId(S.items[S.i]),st=S.pm[q.id],t=Date.now();
   st.g.forEach((g,i)=>(H[q.id+'#'+i]=H[q.id+'#'+i]||[]).push({t,s:g}));
   S.res.push({id:q.id,score:st.g.reduce((a,b)=>a+b,0)/st.g.length});persist();next()}
@@ -584,6 +614,10 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(
     case'pmnext':pmNext();break;
     case'pm2done':{const q=byId(S.items[S.i]);(H[q.id]=H[q.id]||[]).push({t:Date.now(),s:1});S.res.push({id:q.id,score:1});save(LS.h,H);save('sa-drill.drafts.v1',DR);next();break}
     case'quit':finish();break;
+    case'omode':{const q=byId(S.items[S.i]);omOf(q)[+b.dataset.q]=v;save('sa-drill.outmodes.v1',OM);renderQuiz();break}
+    case'omall':{const q=byId(S.items[S.i]);OM[q.id]=q.subs.map(()=>v);save('sa-drill.outmodes.v1',OM);renderQuiz();break}
+    case'copyout':{const q=byId(S.items[S.i]);const t=$('#out-text');t.value=ronbunText(q);
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t.value).then(()=>toast('コピーしました'),()=>{t.select();toast('選択しました。手動でコピーしてください')})}else{t.select();toast('選択しました。手動でコピーしてください')}break}
     case'retry':startSession(S.res.filter(x=>x.score<1).map(x=>byId(x.id)).filter(Boolean));break;
     case'tosetup':S=null;renderSetup();show('setup');break;
     case'sexam':statsExam=v;renderStats();break;
